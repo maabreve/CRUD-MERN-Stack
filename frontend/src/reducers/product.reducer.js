@@ -21,8 +21,8 @@ export default (state = defaultState, action = {}) => {
     }
 
     case "FETCH_PRODUCTS_FULFILLED": {
-    //  let _productsPaged = Paginator(action.payload.data, state.currentPage, state.itemsPerPage);
-    return {
+      //  let _productsPaged = Paginator(action.payload.data, state.currentPage, state.itemsPerPage);
+      return {
         ...state,
         products: action.payload.data.data || action.payload.data,
         productsSnapshot: action.payload.data.data || action.payload.data,
@@ -32,11 +32,11 @@ export default (state = defaultState, action = {}) => {
     /**************************
     * search all by name 
     ****************************/
-   case 'SEARCH_PRODUCTS': {
+    case 'SEARCH_PRODUCTS': {
       let searchResult = state.productsSnapshot.filter(function (item) {
         return item.name.toLowerCase().search(action.payload.name.toLowerCase()) !== -1;
       });
-      
+
       let _productsPaged = Paginator(searchResult, action.payload.currentPage, action.payload.itemsPerPage);
       return {
         ...state,
@@ -64,7 +64,7 @@ export default (state = defaultState, action = {}) => {
         loading: false
       }
     }
-    
+
     /**************************
     * new 
     ****************************/
@@ -83,7 +83,7 @@ export default (state = defaultState, action = {}) => {
     }
 
     case 'SAVE_PRODUCT_FULFILLED': {
-        return {
+      return {
         ...state,
         products: [...state.products, action.payload.data],
         productsSnapshot: [...state.products, action.payload.data],
@@ -138,15 +138,16 @@ export default (state = defaultState, action = {}) => {
     /**************************
     * delete  
     ****************************/
-   case 'DELETE_PRODUCT_FULFILLED': {
+    case 'DELETE_PRODUCT_FULFILLED': {
       const _id = action.payload.data;
-      return {
-        ...state,
-        products: state.products.filter(item => item._id !== _id),
-        productsSnapshot: state.products.filter(item => item._id !== _id),
+      state.products.fulldata = state.products.fulldata.filter(item => item._id !== _id);
+      state.products.data = state.products.data.filter(item => item._id !== _id); 
+      return Object.assign({}, state, {
+        products: state.products,
+        productsSnapshot: state.products,
         errors: {},
         loading: false
-      }
+      })
     }
 
     default:

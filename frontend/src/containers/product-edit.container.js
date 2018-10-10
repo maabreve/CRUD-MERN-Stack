@@ -23,15 +23,21 @@ class ProductEditContiner extends Component {
   submit = (product) => {
     if(!product._id) {
       return this.props.saveProduct(product)
-        .then(response => this.setState({ redirect:true }))
+        .then(response => {
+          this.setState({ redirect:true })
+        })
         .catch(err => {
-           throw new SubmissionError(this.props.errors)
+          this.setState({ redirect:true })
+          throw new SubmissionError(this.props.errors)
          })
     } else {
       return this.props.updateProduct(product)
-        .then(response => this.setState({ redirect:true }))
+        .then(response => {
+          this.setState({ redirect:true });
+      })
         .catch(err => {
-           throw new SubmissionError(this.props.errors)
+          this.setState({ redirect:true })
+          throw new SubmissionError(this.props.errors)
          })
     }
   }

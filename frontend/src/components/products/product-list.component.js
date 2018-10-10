@@ -4,7 +4,6 @@ import ProductItem from './product-item.component';
 export default function ProductListComponent({products, deleteProduct}){
 
   const loadProductList = () => {
-    console.log(products)
     return products.data ? 
       products.data.map(product => {
         return (

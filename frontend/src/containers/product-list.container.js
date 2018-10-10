@@ -22,7 +22,7 @@ class ProductListContainer extends Component {
 
   render() {
     return (
-    <div  style={{marginTop:"2em"}}>
+      <div style={{ marginTop: "2em" }}>
         <Grid>
           <Grid.Column width={9}>
             <h1>Lista de Produtos</h1>
@@ -34,14 +34,13 @@ class ProductListContainer extends Component {
           </Grid.Column>
           <Grid.Column width={2}>
             <Container textAlign="right">
-            <Link to={`/products/new`} className="ui green tiny button" role="button">Novo Produto</Link>
+              <Link to={`/products/new`} className="ui green tiny button" role="button">Novo Produto</Link>
             </Container>
           </Grid.Column>
         </Grid>
-        
         <ProductListComponent products={this.props.products} deleteProduct={this.props.deleteProduct} />
-        <PaginationComponent currentPage={this.props.currentPage} itemsPerPage={this.props.itemsPerPage}  totalItems={this.props.products  && this.props.products.fulldata ? this.props.products.fulldata.length : 0} 
-            handlePageChange={this.handlePageChange}></PaginationComponent>
+        <PaginationComponent currentPage={this.props.currentPage} itemsPerPage={this.props.itemsPerPage} items={this.props.products.fulldata}
+          handlePageChange={this.handlePageChange}></PaginationComponent>
       </div>
     )
   }
@@ -50,7 +49,6 @@ class ProductListContainer extends Component {
 function mapStateToProps(state) {
   return {
     products: state.productStore.products,
-    productsPaged: state.productStore.productsPaged,
     itemsPerPage: state.paginationStore.itemsPerPage
   }
 }

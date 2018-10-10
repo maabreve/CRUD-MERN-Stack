@@ -6,7 +6,6 @@ const defaultState = {
 export default (state = defaultState, action = {}) => {
     switch (action.type) {
         case 'SET_CURRENT_PAGE': {
-            console.log('reducer', action.payload)
             return {
                 ...state,
                 currentPage: action.payload

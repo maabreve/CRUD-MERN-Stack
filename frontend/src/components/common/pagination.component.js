@@ -11,15 +11,15 @@ class PaginationComponent extends Component {
   }
   
   mountControl = () => {
-    // let totalPages = 1;
-    // if (totalItems && itemsPerPage && itemsPerPage > 0) {
-    //   totalPages = totalItems / itemsPerPage;
-    // }
+    let totalPages = 1;
+    if (this.props.items && this.props.itemsPerPage && this.props.itemsPerPage > 0) {
+      totalPages = Math.ceil(this.props.items.length / this.props.itemsPerPage);
+    }
 
     return (
       <Container>
         <Pagination onClick={this.handlePageChange.bind(this)}
-          activePage={this.props.currentPage} totalPages={3} />
+          activePage={this.props.currentPage} totalPages={totalPages} />
       </Container>
     )
   }

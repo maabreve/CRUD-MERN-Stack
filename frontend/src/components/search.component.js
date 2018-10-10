@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 class ProductSearchComponent extends Component {
   filterList = (event) => {
-    // this.props.searchProducts(event.target.value.toLowerCase());
     this.props.setSearch(event.target.value.toLowerCase());
   }
 
