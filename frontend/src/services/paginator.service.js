@@ -2,7 +2,7 @@ export default function Paginator(_items, _page, _per_page) {
   if (!_items) {
     return [];
   }
-
+    
   var page = _page || 1,
     per_page = _per_page || 10,
     offset = (page - 1) * per_page,

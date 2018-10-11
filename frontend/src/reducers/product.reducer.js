@@ -1,7 +1,6 @@
-import Paginator from '../services/paginator.service';
 
 const defaultState = {
-  products: [],
+  productsAll: [],
   productsSnapshot: [],
   product: {},
   loading: false,
@@ -15,17 +14,16 @@ export default (state = defaultState, action = {}) => {
     case 'FETCH_PRODUCTS': {
       return {
         ...state,
-        products: action.payload,
-        productsSnapshot: action.payload,
+        productsAll: action.payload,
+        productsSnapshot: action.payload
       }
     }
 
     case "FETCH_PRODUCTS_FULFILLED": {
-      //  let _productsPaged = Paginator(action.payload.data, state.currentPage, state.itemsPerPage);
       return {
         ...state,
-        products: action.payload.data.data || action.payload.data,
-        productsSnapshot: action.payload.data.data || action.payload.data,
+        productsAll: action.payload.data.data || action.payload.data,
+        productsSnapshot: action.payload.data.data || action.payload.data
       }
     }
 
@@ -33,15 +31,9 @@ export default (state = defaultState, action = {}) => {
     * search all by name 
     ****************************/
     case 'SEARCH_PRODUCTS': {
-      let searchResult = state.productsSnapshot.filter(function (item) {
-        return item.name.toLowerCase().search(action.payload.name.toLowerCase()) !== -1;
-      });
-
-      let _productsPaged = Paginator(searchResult, action.payload.currentPage, action.payload.itemsPerPage);
       return {
         ...state,
-        products: searchResult,
-        productsPaged: _productsPaged.data
+        productsAll: action.payload
       }
     }
 
@@ -85,8 +77,8 @@ export default (state = defaultState, action = {}) => {
     case 'SAVE_PRODUCT_FULFILLED': {
       return {
         ...state,
-        products: [...state.products, action.payload.data],
-        productsSnapshot: [...state.products, action.payload.data],
+        productsAll: [...state.productsAll, action.payload.data],
+        productsSnapshot: [...state.productsAll, action.payload.data],
         errors: {},
         loading: false
       }
@@ -117,8 +109,8 @@ export default (state = defaultState, action = {}) => {
       const product = action.payload.data;
       return {
         ...state,
-        products: state.products.map(item => item._id === product._id ? product : item),
-        productsSnapshot: state.products.map(item => item._id === product._id ? product : item),
+        productsAll: state.productsAll.fulldata.map(item => item._id === product._id ? product : item),
+        productsSnapshot: state.productsAll.fulldata.map(item => item._id === product._id ? product : item),
         errors: {},
         loading: false
       }
@@ -138,16 +130,14 @@ export default (state = defaultState, action = {}) => {
     /**************************
     * delete  
     ****************************/
-    case 'DELETE_PRODUCT_FULFILLED': {
-      const _id = action.payload.data;
-      state.products.fulldata = state.products.fulldata.filter(item => item._id !== _id);
-      state.products.data = state.products.data.filter(item => item._id !== _id); 
-      return Object.assign({}, state, {
-        products: state.products,
-        productsSnapshot: state.products,
+    case 'DELETE_PRODUCT': {
+      return {
+        ...state,
+        productsAll: action.payload,
+        productsSnapshot: action.payload,
         errors: {},
         loading: false
-      })
+      }
     }
 
     default:

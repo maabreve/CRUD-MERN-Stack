@@ -1,18 +1,11 @@
 const defaultState = {
     currentPage: 2,
-    itemsPerPage: 5
+    itemsPerPage: 3
 }
 
 export default (state = defaultState, action = {}) => {
     switch (action.type) {
         case 'SET_CURRENT_PAGE': {
-            return {
-                ...state,
-                currentPage: action.payload
-            }
-        }
-
-        case 'SET_CURRENT_PAGE_FULFILLED': {
             return {
                 ...state,
                 currentPage: action.payload

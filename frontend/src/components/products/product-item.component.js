@@ -27,7 +27,7 @@ export default
       </Grid.Column>
       <Grid.Column  width={1}>
         <Segment basic>
-          <Button color="red" size='mini' onClick={() => deleteProduct(product._id)} >Excluir</Button>
+          <Button color="red" size='mini' onClick={() => deleteProduct(product._id, 3)} >Excluir</Button>
         </Segment>
       </Grid.Column>
     </Grid>

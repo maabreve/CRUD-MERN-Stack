@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { setSearch } from '../../actions/search.actions';
 import { connect } from 'react-redux';
-
+import {searchProducts} from '../../actions/product.actions';
 class ProductSearchComponent extends Component {
   filterList = (event) => {
-    this.props.setSearch(event.target.value.toLowerCase());
+    this.props.searchProducts(event.target.value.toLowerCase(), this.props.itemsPerPage );
   }
 
   render() {
@@ -16,7 +15,6 @@ class ProductSearchComponent extends Component {
             <input type="text" placeholder="Pesquisar"
               className="prompt" autoComplete="off"
               onChange={this.filterList} />
-
           </div>
         </div>
       </div>
@@ -27,8 +25,9 @@ class ProductSearchComponent extends Component {
 function mapStateToProps(state) {
   return {
     product: state.productStore.product,
-    errors: state.productStore.errors
+    errors: state.productStore.errors,
+    itemsPerPage: state.paginationStore.itemsPerPage
   }
 }
 
-export default connect(mapStateToProps, { setSearch })(ProductSearchComponent);
+export default connect(mapStateToProps, { searchProducts })(ProductSearchComponent);

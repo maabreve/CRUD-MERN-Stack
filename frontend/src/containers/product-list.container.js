@@ -3,24 +3,28 @@ import { connect } from 'react-redux';
 import { Grid, Container } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-import { fetchProducts, deleteProduct } from '../actions/product.actions';
-import { setCurrentPage } from '../actions/pagination.action';
+import { fetchProducts, deleteProduct, searchProducts } from '../actions/product.actions';
 import ProductListComponent from '../components/products/product-list.component';
-import SearchComponent from '../components/common/search.component';
+import ProductSearchComponent from '../components/products/product-search.component';
 import PaginationComponent from '../components/common/pagination.component';
 
 class ProductListContainer extends Component {
   componentDidMount() {
-    this.props.setCurrentPage(1);
     this.props.fetchProducts(1, this.props.itemsPerPage);
   }
 
   handlePageChange = (page) => {
-    this.props.setCurrentPage(page);
     this.props.fetchProducts(page, this.props.itemsPerPage);
   }
 
   render() {
+    let totalPages = 1;
+    if (this.props.productsAll && this.props.productsAll.fulldata 
+                                && this.props.itemsPerPage 
+                                && this.props.itemsPerPage > 0) {
+      totalPages = Math.ceil(this.props.productsAll.fulldata.length / this.props.itemsPerPage);
+    }
+
     return (
       <div style={{ marginTop: "2em" }}>
         <Grid>
@@ -29,7 +33,7 @@ class ProductListContainer extends Component {
           </Grid.Column>
           <Grid.Column width={5}>
             <Container textAlign="right">
-              <SearchComponent />
+              <ProductSearchComponent searchAction={searchProducts} />
             </Container>
           </Grid.Column>
           <Grid.Column width={2}>
@@ -38,9 +42,13 @@ class ProductListContainer extends Component {
             </Container>
           </Grid.Column>
         </Grid>
-        <ProductListComponent products={this.props.products} deleteProduct={this.props.deleteProduct} />
-        <PaginationComponent currentPage={this.props.currentPage} itemsPerPage={this.props.itemsPerPage} items={this.props.products.fulldata}
-          handlePageChange={this.handlePageChange}></PaginationComponent>
+
+        <ProductListComponent products={this.props.productsAll} deleteProduct={this.props.deleteProduct} />
+        
+        <PaginationComponent currentPage={this.props.currentPage} 
+                             totalPages={totalPages}
+                             handlePageChange={this.handlePageChange}>
+        </PaginationComponent>
       </div>
     )
   }
@@ -48,9 +56,9 @@ class ProductListContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    products: state.productStore.products,
+    productsAll: state.productStore.productsAll,
     itemsPerPage: state.paginationStore.itemsPerPage
   }
 }
 
-export default connect(mapStateToProps, { fetchProducts, setCurrentPage, deleteProduct })(ProductListContainer);
+export default connect(mapStateToProps, { fetchProducts, deleteProduct })(ProductListContainer);

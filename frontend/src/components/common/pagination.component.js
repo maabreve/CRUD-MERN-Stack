@@ -5,31 +5,30 @@ import { Pagination, Container } from 'semantic-ui-react';
 import { setCurrentPage } from '../../actions/pagination.action';
 
 class PaginationComponent extends Component {
-  handlePageChange(menu) {
-    let page = menu.target.attributes.value.value;
-    this.props.handlePageChange(page);
-  }
-  
-  mountControl = () => {
-    let totalPages = 1;
-    if (this.props.items && this.props.itemsPerPage && this.props.itemsPerPage > 0) {
-      totalPages = Math.ceil(this.props.items.length / this.props.itemsPerPage);
-    }
-
-    return (
-      <Container>
-        <Pagination onClick={this.handlePageChange.bind(this)}
-          activePage={this.props.currentPage} totalPages={totalPages} />
-      </Container>
-    )
+  componentDidMount() {
+    this.props.setCurrentPage(1);
   }
 
   render() {
     return (
-      this.mountControl()
+      <Container>
+        <Pagination onClick={this.pageChanged.bind(this)}
+          activePage={this.props.currentPage} 
+          totalPages={this.props.totalPages} />
+      </Container>
     )
   }
-  
+
+  pageChanged(pageSelected) {
+    let page = pageSelected.target && 
+              pageSelected.target.attributes && 
+              pageSelected.target.attributes.value ? 
+              pageSelected.target.attributes.value.value : 
+              1;
+    
+    this.props.setCurrentPage(page);
+    this.props.handlePageChange(page);
+  }
 }
 
 function mapStateToProps(state) {

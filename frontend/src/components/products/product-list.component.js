@@ -4,7 +4,7 @@ import ProductItem from './product-item.component';
 export default function ProductListComponent({products, deleteProduct}){
 
   const loadProductList = () => {
-    return products.data ? 
+    return products && products.data ? 
       products.data.map(product => {
         return (
           <ProductItem key={product._id} 
