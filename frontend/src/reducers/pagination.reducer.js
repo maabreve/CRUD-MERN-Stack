@@ -1,6 +1,6 @@
 const defaultState = {
-    currentPage: 2,
-    itemsPerPage: 3
+    currentPage: 1,
+    itemsPerPage: 16
 }
 
 export default (state = defaultState, action = {}) => {

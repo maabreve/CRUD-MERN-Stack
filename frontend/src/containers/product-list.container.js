@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Container } from 'semantic-ui-react';
+import { Grid, Container, Form } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-import { fetchProducts, deleteProduct, searchProducts } from '../actions/product.actions';
+import { fetchProducts, deleteProduct } from '../actions/product.actions';
 import ProductListComponent from '../components/products/product-list.component';
-import ProductSearchComponent from '../components/products/product-search.component';
+import ProductHeaderComponent from '../components/products/product-header.component';
+import ProductTitleComponent from '../components/products/product-title.component';
+
 import PaginationComponent from '../components/common/pagination.component';
 
 class ProductListContainer extends Component {
@@ -19,36 +21,46 @@ class ProductListContainer extends Component {
 
   render() {
     let totalPages = 1;
-    if (this.props.productsAll && this.props.productsAll.fulldata 
-                                && this.props.itemsPerPage 
-                                && this.props.itemsPerPage > 0) {
+    if (this.props.productsAll && this.props.productsAll.fulldata
+      && this.props.itemsPerPage
+      && this.props.itemsPerPage > 0) {
       totalPages = Math.ceil(this.props.productsAll.fulldata.length / this.props.itemsPerPage);
     }
 
     return (
-      <div style={{ marginTop: "2em" }}>
-        <Grid>
-          <Grid.Column width={9}>
-            <h1>Lista de Produtos</h1>
-          </Grid.Column>
-          <Grid.Column width={5}>
-            <Container textAlign="right">
-              <ProductSearchComponent searchAction={searchProducts} />
-            </Container>
-          </Grid.Column>
-          <Grid.Column width={2}>
-            <Container textAlign="right">
-              <Link to={`/products/new`} className="ui green tiny button" role="button">Novo Produto</Link>
-            </Container>
-          </Grid.Column>
-        </Grid>
+      <div style={{ backgroundColor: '#666666', marginTop: "3.4em" }}>
+        <ProductHeaderComponent backcolor="#cccccc"></ProductHeaderComponent>
+        <ProductTitleComponent title="Lençol avulso"></ProductTitleComponent>
+        <Container style={{ padding: '50px 0' }}>
+          {/* <Link to={`/products/new`} className="ui green tiny button" role="button">Novo Produto</Link> */}
+          <div style={{ backgroundColor: '#f8f8f8' }}>
+            <Link to={`/products/new`} className="ui mini button" role="button">+</Link>
 
-        <ProductListComponent products={this.props.productsAll} deleteProduct={this.props.deleteProduct} />
-        
-        <PaginationComponent currentPage={this.props.currentPage} 
-                             totalPages={totalPages}
-                             handlePageChange={this.handlePageChange}>
-        </PaginationComponent>
+            <ProductListComponent products={this.props.productsAll} deleteProduct={this.props.deleteProduct} />
+            <Grid>
+              <Grid.Column floated='left' width={5}>
+                <Form  style={{ marginLeft: 10 }}>
+                  <Form.Group widths='equal'>
+                    <Form.Field control='select'>
+                      <option value='male'>16 produtos por página</option>
+                      <option value='female'>50 produtos por página</option>
+                    </Form.Field>
+                  </Form.Group>
+               
+                </Form>
+              </Grid.Column>
+              <Grid.Column textAlign='right' floated='right' style={{ marginRight: 10 }} width={5}>
+                <PaginationComponent
+                  currentPage={this.props.currentPage}
+                  totalPages={totalPages}
+                  handlePageChange={this.handlePageChange}>
+                </PaginationComponent>
+              </Grid.Column>
+            </Grid>
+
+
+          </div>
+        </Container>
       </div>
     )
   }

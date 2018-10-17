@@ -1,21 +1,21 @@
 import React from 'react';
 import ProductItem from './product-item.component';
 
-export default function ProductListComponent({products, deleteProduct}){
+export default function ProductListComponent({ products, deleteProduct }) {
 
   const loadProductList = () => {
-    return products && products.data ? 
+    return products && products.data ?
       products.data.map(product => {
         return (
-          <ProductItem key={product._id} 
-                      product={product} 
-                      deleteProduct={deleteProduct} />
+          <ProductItem key={product._id}
+            product={product}
+            deleteProduct={deleteProduct} />
         )
       }) : <p>Nenhum produto cadastrado</p>
-    ;
+      ;
   }
 
   return (
-      loadProductList() 
+      loadProductList()
   )
 }
